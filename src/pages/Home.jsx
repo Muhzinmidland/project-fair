@@ -8,14 +8,14 @@ import homepageImage from '../assets/IMG-20240111-WA0004.jpg'
 function Home() {
   return (
     <>
-    <div className='my-5 bg-success' style={{width:"100%",height:"80vh"}}>
+    <div className='my-5 ' style={{width:"100%",height:"80vh",backgroundColor:'#85e085'}}>
         <div className='container-fluid rounded'>
            <Row className='align-items-center p-5'>
             <Col sm={12} md={6} lg={6}>
            <h2 className='fw-bold text-light mb-3' style={{fontSize:"50px"}}>Project Fair</h2>
            <p>One stop destination for all software development projects</p>
            <Link to={'/login'}>
-           <button className='btn btn-warning p-3'>Get Started<i class="fa-solid fa-arrow-right"></i></button>
+           <button className='btn btn-light p-3'>Get Started<i class="fa-solid fa-arrow-right"></i></button>
            </Link>
             </Col>
             <Col sm={12} md={6}>

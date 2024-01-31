@@ -1,16 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import authImage from '../assets/IMG-20240111-WA0007.jpg'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { registerAPI } from '../services/allAPI';
 
 function Auth({ register }) {
   const registerForm = register ? true : false;
+  const [userData,setUserData] = useState({
+    username:"",
+    email:"",
+    password:""
+  })
+
+  const handleRegister = async(e)=>{
+    e.preventDefault();
+    console.log("user details");
+    console.log(userData);
+    const {username,email,password} = userData;
+    if(!username || !email || !password){
+      alert("please fill the form completely")
+    }
+    else{
+      const result  = await registerAPI(userData);
+      console.log("user registration details===");
+      console.log(result);
+    }
+  }
+
   return (
     <div className='d-flex justify-content-center align-items-center' style={{ width: "100%", height: "100vh" }}>
       <div className='container w-75'>
         <Link to={'/'} style={{ textDecoration: "none", color: "blue" }}><i class="fa-solid fa-arrow-left"></i>Back to Home</Link>
-        <div className='bg-success p-5 rounded mt-3'>
+        <div className=' p-5 rounded mt-2' style={{backgroundColor:'#2eb82e'}}>
           <div className='row align-items-center'>
             <div className='col-lg-6 col-md-6'>
               <img src={authImage} alt="" width={"100%"} />
@@ -29,29 +51,35 @@ function Auth({ register }) {
 
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>User Name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Username" />
+                        <Form.Control type="text" placeholder="Enter Username"
+                        onChange={(e)=>setUserData({...userData,username:e.target.value})}
+                        value={userData.username}/>
                       </Form.Group>
                     }
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email Address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="email" placeholder="Enter email" 
+                        onChange={(e)=>setUserData({...userData,email:e.target.value})}
+                        value={userData.email}/>
                       </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                       <Form.Label>Password</Form.Label>
-                      <Form.Control type="password" placeholder="Password" />
+                      <Form.Control type="password" placeholder="Password" 
+                      onChange={(e)=>setUserData({...userData,password:e.target.value})}
+                      value={userData.password}/>
                     </Form.Group>
                     {
                       registerForm ?
                       <div>
-                        <Button className='btn btn-light'>Register</Button>
-                        <p className='mt-2'>Already a user? Click here to <Link to={'/login'} className='text-decoration-none text-danger fw-bold'>Login</Link></p>
+                        <Button className='btn btn-light mt-3' onClick={handleRegister}>Register</Button>
+                        <p className='mt-2 text-bold'>Already a user? Click here to <Link to={'/login'} className='text-decoration-none text-light fw-bold'>Login</Link></p>
                       </div>
                       :
                       <div>
                         <Link to={'/dashboard'}>
-                          <Button className='btn btn-light' >Login</Button>
+                          <Button className='btn btn-light mt-3' >Login</Button>
                         </Link>                        
-                        <p>New user? Click here to <Link to={'/register'} className='text-decoration-none text-warning fw-bold' >Register</Link></p>
+                        <p className='text-bold'>New user? Click here to <Link to={'/register'} className='text-decoration-none text-light fw-bold' >Register</Link></p>
                       </div>
                     }
                   </Form>

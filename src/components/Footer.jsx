@@ -35,7 +35,7 @@ function Footer() {
                     <div className='d-flex'>
                         <input type="text" name="" id=""
                          placeholder='Enter your email' className='form-control'/>
-                        <button className='btn btn-warning ms-2'>Subscribe</button>
+                        <button className='btn btn-light ms-2'>Subscribe</button>
                     </div>
                     <div className='d-flex align-items-center justify-content-evenly fs-4 mt-3'>
                     <i class="fa-brands fa-instagram" sty></i>
