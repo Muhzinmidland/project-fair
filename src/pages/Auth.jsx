@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import authImage from '../assets/IMG-20240111-WA0007.jpg'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { registerAPI } from '../services/allAPI';
+import { loginAPI, registerAPI } from '../services/allAPI';
 
 function Auth({ register }) {
   const registerForm = register ? true : false;
@@ -23,15 +23,36 @@ function Auth({ register }) {
     }
     else{
       const result  = await registerAPI(userData);
-      console.log("user registration details===");
-      console.log(result);
+      if(result.status === 200){
+        alert("user registered successfully")
+        setUserData({
+          username:"",
+          email:"",
+          password:""
+        })
+      }
+      else{
+        alert(result.response.data)
+      }
+    }
+  }
+
+  const handleLogin = async(e)=>{
+    e.preventDefault();
+    const {email , password} = userData;
+    if(!password || !email){
+      alert("please fill the form completely")
+    }
+    else{
+      const loginResult = await loginAPI(userData)
+      alert("login successfully")
     }
   }
 
   return (
     <div className='d-flex justify-content-center align-items-center' style={{ width: "100%", height: "100vh" }}>
       <div className='container w-75'>
-        <Link to={'/'} style={{ textDecoration: "none", color: "blue" }}><i class="fa-solid fa-arrow-left"></i>Back to Home</Link>
+        <Link to={'/'} style={{ textDecoration: "none", color: "green" }}><i class="fa-solid fa-arrow-left"></i>Back to Home</Link>
         <div className=' p-5 rounded mt-2' style={{backgroundColor:'#2eb82e'}}>
           <div className='row align-items-center'>
             <div className='col-lg-6 col-md-6'>
@@ -77,7 +98,7 @@ function Auth({ register }) {
                       :
                       <div>
                         <Link to={'/dashboard'}>
-                          <Button className='btn btn-light mt-3' >Login</Button>
+                          <Button className='btn btn-light mt-3' onClick={handleLogin}>Login</Button>
                         </Link>                        
                         <p className='text-bold'>New user? Click here to <Link to={'/register'} className='text-decoration-none text-light fw-bold' >Register</Link></p>
                       </div>
